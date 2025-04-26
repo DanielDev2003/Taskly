@@ -3,6 +3,8 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View }  from 'react-native';
 import { style } from "./styles";
 import logo from '../../assets/logo.png';
+import logo2 from '../../assets/logo2.png';
+
 import {themes} from '../../global/themes'
 
 export default function Theme(){
@@ -10,7 +12,7 @@ export default function Theme(){
         <View style={style.container}>
             <View style={style.boxtop}>
                 <Image 
-                source={logo}
+                source={logo2}
                 style={style.logo}
                 resizeMode="contain"
                 />
