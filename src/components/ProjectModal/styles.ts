@@ -1,4 +1,5 @@
 import {StyleSheet } from "react-native";
+import { themes } from "../../global/themes";
 
 export const style = StyleSheet.create({
     modalContainer: {
@@ -32,12 +33,23 @@ export const style = StyleSheet.create({
       cancelButton: {
         marginRight: 15,
       },
-      cancelText: {
+      cancelTextCreate: {
         color: '#EF4444',
+        fontWeight: '600',
+      },
+      cancelTextEdit: {
+        color: themes.colors.muted,
         fontWeight: '600',
       },
       saveText: {
         color: '#2563EB',
         fontWeight: '600',
+      },
+      deleteButton: {
+        marginRight: 15,
+      },
+      deleteText: {
+        color: "#EF4444",
+        fontWeight: "600",
       },
 })

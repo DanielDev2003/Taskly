@@ -4,6 +4,8 @@ interface ProjectModalProps{
     visible:boolean;
     onClose: () => void;
     onSave: () => void;
+    onDelete: () => void;
+    isEditing?: boolean;
     title: string;
     taskName: string;
     setTitle: (value: string) => void;
@@ -14,6 +16,8 @@ export function ProjectModal({
     visible,
     onClose,
     onSave,
+    onDelete,
+    isEditing = false,
     title,
     taskName,
     setTitle,
@@ -28,7 +32,7 @@ export function ProjectModal({
         >
             <View style={style.modalContainer}>
                 <View style={style.modalContent}>
-                <Text style={style.modalTitle}>New Project</Text>
+                <Text style={style.modalTitle}>{isEditing? "Edit Project":"New Project"}</Text>
 
                 <TextInput
                     placeholder="Title"
@@ -44,8 +48,13 @@ export function ProjectModal({
                 />
 
                 <View style={style.modalButtons}>
+                    {isEditing?(
+                        <TouchableOpacity onPress={onDelete} style={style.deleteButton}>
+                            <Text style={style.deleteText}>Delete</Text>
+                        </TouchableOpacity>
+                    ):null}
                     <TouchableOpacity onPress={onClose} style={style.cancelButton}>
-                        <Text style={style.cancelText}>Cancel</Text>
+                        <Text style={isEditing?style.cancelTextEdit:style.cancelTextCreate}>Cancel</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={onSave}>

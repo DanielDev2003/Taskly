@@ -1,15 +1,15 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import { style } from "./style";
 import { Ionicons } from '@expo/vector-icons';
+import { Task } from '../../interfaces/ITask';
 
 interface TaskItemProps {
-    title: string;
-    description: string;
-    status: boolean;
+    task:Task;
     onToggleComplete: () => void;
 }
 
-export function Task({ title, description, status , onToggleComplete}: TaskItemProps){
+export function TaskItem({ task,  onToggleComplete}: TaskItemProps){
+    const {title, description, status} = task;
     return (
         <View style={style.taskItem}>
             <View style={style.taskInfo}>

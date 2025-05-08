@@ -33,12 +33,24 @@ export const style = StyleSheet.create({
       cancelButton: {
         marginRight: 15,
       },
-      cancelText: {
-        color: '#EF4444',
+      cancelTextCreate:{
+        color: "#EF4444",
+        fontWeight: "600",
+      },
+      cancelTextEdit: {
+        color: themes.colors.muted,
         fontWeight: '600',
       },
       saveText: {
         color: '#2563EB',
         fontWeight: '600',
       },
+      deleteButton: {
+        marginRight: 15,
+      },
+      deleteText: {
+        color: "#EF4444",
+        fontWeight: "600",
+      },
+      
 }) 
