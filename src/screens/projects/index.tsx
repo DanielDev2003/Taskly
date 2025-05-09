@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text,TouchableOpacity, FlatList } from 'react-native';
 import {style} from './styles'
 import { ProjectModal } from '../../components/ProjectModal';
 import { ProjectItem } from '../../components/ProjectItem';
 import { Project } from '../../interfaces/Project';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Projects(){
     const [projects, setProjects] = useState<Project[]>([]);
@@ -11,6 +12,21 @@ export default function Projects(){
     const [taskName, setTaskName] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [selectProject, setSelectProject] = useState<Project | null>(null);
+
+    useEffect(()=>{
+        async function getData() {
+            try{
+                const data = await AsyncStorage.getItem("@TasklyApp:projects");
+                const projectsData = data != null? JSON.parse(data):[];
+                setProjects(projectsData)
+            }catch(e){
+
+            }
+        }
+
+        getData()
+    }, [])
+
     function handleAddProject() {
         if (title.trim() === '' || taskName.trim() === '') return;
     
@@ -19,8 +35,14 @@ export default function Projects(){
           title,
           taskName,
         };
-    
-        setProjects(prev => [...prev, newProject]);
+        
+        const projectPlus: Project[] = [
+            ...projects,
+            newProject
+        ];
+
+        setProjects(projectPlus);
+        AsyncStorage.setItem("@TasklyApp:projects",JSON.stringify(projectPlus))
         resetModal()
     } //add a Project
 
@@ -40,6 +62,7 @@ export default function Projects(){
             : project
         )
         setProjects(updateProject)
+        AsyncStorage.setItem("@TasklyApp:projects",JSON.stringify(updateProject))
         resetModal()
     } // update Project
     
@@ -47,8 +70,9 @@ export default function Projects(){
         if(!selectProject) return;
         const filterProjects = projects.filter(project => project.id != selectProject.id)
         setProjects(filterProjects)
+        AsyncStorage.setItem("@TasklyApp:projects",JSON.stringify(filterProjects))
         resetModal()
-    }
+    } //delete Project
     function handleOpenEditModal(project : Project){
         setSelectProject(project)
         setTitle(project.title)

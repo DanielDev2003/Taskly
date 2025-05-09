@@ -3,6 +3,7 @@ import Theme from '../screens/theme'
 import Tasks from '../screens/tasks'
 import Projects from '../screens/projects';
 import {Ionicons} from '@expo/vector-icons'
+
 const Tab = createBottomTabNavigator();
 export function Routes(){
     return(
