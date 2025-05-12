@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import { style } from "./style";
 import { Ionicons } from '@expo/vector-icons';
-import { Task } from '../../interfaces/ITask';
+import { Task } from '../../interfaces/Task';
 
 interface TaskItemProps {
     task:Task;
