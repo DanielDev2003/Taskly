@@ -1,42 +1,42 @@
 import { themes } from '@/constants/themes';
-import { Project } from '@/interfaces/Project';
+import { User } from '@/interfaces/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
 
-export default function ProjectEdit() {
-  const { projectId } = useLocalSearchParams<{ projectId: string }>();
-  const [task, setTask] = useState<Project | null>(null);
-  const [title, setTitle] = useState('');
-  const [taskName, setTaskName] = useState('');
+export default function UserEdit() {
+  const { userId } = useLocalSearchParams<{ userId: string }>();
+  const [task, setTask] = useState<User | null>(null);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     async function loadProjects() {
-      const data = await AsyncStorage.getItem("@TasklyApp:projects");
-      const tasks: Project[] = data ? JSON.parse(data) : [];
-      const foundTask = tasks.find(t => t.id === projectId);
+      const data = await AsyncStorage.getItem("@TasklyApp:users");
+      const tasks: User[] = data ? JSON.parse(data) : [];
+      const foundTask = tasks.find(t => t.id === userId);
       if (foundTask) {
         setTask(foundTask);
-        setTitle(foundTask.title);
-        setTaskName(foundTask.taskName);
+        setName(foundTask.name);
+        setPassword(foundTask.password);
       }
     }
     loadProjects();
-  }, [projectId]);
+  }, [userId]);
 
   async function handleSave() {
-    if (!title.trim() || !taskName.trim()) return;
+    if (!name.trim() || !password.trim()) return;
 
-    const data = await AsyncStorage.getItem("@TasklyApp:projects");
-    const tasks: Project[] = data ? JSON.parse(data) : [];
+    const data = await AsyncStorage.getItem("@TasklyApp:users");
+    const tasks: User[] = data ? JSON.parse(data) : [];
 
     const updatedTasks = tasks.map(t =>
-      t.id === task?.id ? { ...t, title, taskName } : t
+      t.id === task?.id ? { ...t, name, password } : t
     );
 
-    await AsyncStorage.setItem("@TasklyApp:projects", JSON.stringify(updatedTasks));
+    await AsyncStorage.setItem("@TasklyApp:users", JSON.stringify(updatedTasks));
     router.back(); // volta para a tela anterior
   }
 
@@ -45,15 +45,15 @@ export default function ProjectEdit() {
       <View style={styles.taskInfo}>
 
         <TextInput
-          placeholder="Title"
-          value={title}
-          onChangeText={setTitle}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
           style={styles.input}
         />
         <TextInput
-          placeholder="Task Name"
-          value={taskName}
-          onChangeText={setTaskName}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
           style={styles.input}
         />
         <TouchableOpacity onPress={handleSave}>
