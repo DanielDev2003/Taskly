@@ -115,11 +115,11 @@ export default function Tasks() {
 
 
   const navigateToDetails = (selectedTask : Task) => {
-    router.push({pathname: '/screens/TaskScreenDetail', params: {taskId : selectedTask.id}})
+    router.push({pathname: '/screens/tasks/TaskScreenDetail', params: {taskId : selectedTask.id}})
   }
 
   const navigateToAdd = () => {
-    router.push({pathname: '/screens/TaskAdd'})
+    router.push({pathname: '/screens/tasks/TaskAdd'})
   }
 
   return (
@@ -141,7 +141,7 @@ export default function Tasks() {
               task={item}
               onToggleComplete={() => handleToggleComplete(item.id)}
               onEdit={()=> router.push({
-                pathname: '/screens/TaskEdit',
+                pathname: '/screens/tasks/TaskEdit',
                 params: {taskId:item.id}
               })
               }

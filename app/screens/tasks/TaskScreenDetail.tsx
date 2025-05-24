@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import { Task } from '../../interfaces/Task';
+import { Task } from '../../../interfaces/Task';
 
 
 export default function TaskForDetail() {

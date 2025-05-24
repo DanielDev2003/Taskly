@@ -1,42 +1,42 @@
 import { themes } from '@/constants/themes';
+import { Project } from '@/interfaces/Project';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
-import { Task } from '../../interfaces/Task';
 
 export default function TaskEdit() {
-  const { taskId } = useLocalSearchParams<{ taskId: string }>();
-  const [task, setTask] = useState<Task | null>(null);
+  const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const [task, setTask] = useState<Project | null>(null);
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [taskName, setTaskName] = useState('');
 
   useEffect(() => {
-    async function loadTask() {
-      const data = await AsyncStorage.getItem("@TasklyApp:tasks");
-      const tasks: Task[] = data ? JSON.parse(data) : [];
-      const foundTask = tasks.find(t => t.id === taskId);
+    async function loadProjects() {
+      const data = await AsyncStorage.getItem("@TasklyApp:projects");
+      const tasks: Project[] = data ? JSON.parse(data) : [];
+      const foundTask = tasks.find(t => t.id === projectId);
       if (foundTask) {
         setTask(foundTask);
         setTitle(foundTask.title);
-        setDescription(foundTask.description);
+        setTaskName(foundTask.taskName);
       }
     }
-    loadTask();
-  }, [taskId]);
+    loadProjects();
+  }, [projectId]);
 
   async function handleSave() {
-    if (!title.trim() || !description.trim()) return;
+    if (!title.trim() || !taskName.trim()) return;
 
-    const data = await AsyncStorage.getItem("@TasklyApp:tasks");
-    const tasks: Task[] = data ? JSON.parse(data) : [];
+    const data = await AsyncStorage.getItem("@TasklyApp:projects");
+    const tasks: Project[] = data ? JSON.parse(data) : [];
 
     const updatedTasks = tasks.map(t =>
-      t.id === task?.id ? { ...t, title, description } : t
+      t.id === task?.id ? { ...t, title, taskName } : t
     );
 
-    await AsyncStorage.setItem("@TasklyApp:tasks", JSON.stringify(updatedTasks));
+    await AsyncStorage.setItem("@TasklyApp:projects", JSON.stringify(updatedTasks));
     router.back(); // volta para a tela anterior
   }
 
@@ -45,19 +45,22 @@ export default function TaskEdit() {
       <View style={styles.taskInfo}>
 
         <TextInput
-          placeholder="Título"
+          placeholder="Title"
           value={title}
           onChangeText={setTitle}
           style={styles.input}
         />
         <TextInput
-          placeholder="Descrição"
-          value={description}
-          onChangeText={setDescription}
+          placeholder="Task Name"
+          value={taskName}
+          onChangeText={setTaskName}
           style={styles.input}
         />
         <TouchableOpacity onPress={handleSave}>
           <Text style={styles.saveText}>Save</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={router.back}>
+            <Text style={styles.cancelTextEdit}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -90,5 +93,11 @@ const styles = StyleSheet.create({
     color: themes.colors.primary,
     fontWeight: '600',
     textAlign:'center'
-  }
+  },
+  cancelTextEdit: {
+    marginTop:15,
+    color: themes.colors.muted,
+    fontWeight: '600',
+    textAlign:'center'
+    },
 });

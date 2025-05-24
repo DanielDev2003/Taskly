@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
-import { Task } from '../../interfaces/Task';
+import { Task } from '../../../interfaces/Task';
 export default function TaskAdd() {
     
   const [tasks, setTasks] = useState<Task[]>([]);
